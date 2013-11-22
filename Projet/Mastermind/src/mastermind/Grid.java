@@ -9,8 +9,10 @@ import java.util.ArrayList;
  * @author Jordan
  */
 public class Grid {
-    
+    private int nbKey = 4;
+    //Nombre de tentatives
     private final int nbTry = 10;
+    //Position dans la grille
     private int gameRound = 0;
     // Nombre de pion à deviner
     private final int keyNumber = 4;
@@ -35,10 +37,8 @@ public class Grid {
        
     }
     
-    
-    
     /**
-     * Génération de la combinaison à deviner
+     * Generation de la combinaison à deviner
      **/
     void generateCombination(){
     
@@ -70,7 +70,7 @@ public class Grid {
     
     /**
      * 
-     * @return le nombre de pion de la bonne couleur et bien placé 
+     * @return le nombre de pion de la bonne couleur et mal placé 
      */
     int countWrongKey(){
         
@@ -78,10 +78,37 @@ public class Grid {
     
     /**
      * 
-     * @return le nombre de pion de la bonne couleur et mal placé 
+     * @return le nombre de pion de la bonne couleur et bien placé 
      */
     int countRightKey(){
         
+        int count = 0;
+        for(int i=0 ; i<nbKey ; i++)
+        {
+            if(gameGrid.get(gameRound)[i]==color[i])
+            {
+                count++;
+                
+            }
+        }
+        return count;
+        
     } 
+    /**
+     * 
+     * @return Rajoute une ligne à la grille gameGrid 
+     */
+    void nextTry()
+    { 
+        Color [] next= new Color[nbKey];
+        gameGrid.add(next);
+    }
+    
+    
+    
+    
+    
+    
+    
     
 }
