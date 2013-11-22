@@ -11,7 +11,8 @@ public class Grid {
     
     // Nombre de pion à deviner
     private final int keyNumber = 4;
-    
+    private final int nbTry = 10;
+    private int gameRound = 0;
     // Grille du jeu
     ArrayList<Color[]> gameGrid;
     
@@ -24,17 +25,18 @@ public class Grid {
     }
     
     /**
-     * Algo de réolution de la ligne
+     * Algo de résolution de la ligne
      */
     void solveCombinationStep(){
         
     }
     
     /**
-     * Renvoi vrai si le nombre max d'essai est atteinte
+     * Renvoi vrai si le nombre max d'essai est atteint 
      **/
     boolean checkGameOver(){
-        
+        return(gameRound==nbTry);
+           
     }
     
     /**
@@ -50,6 +52,7 @@ public class Grid {
      * @return le nombre de pion de la bonne couleur et bien placé 
      */
     int countWrongKey(){
+        
         
     }
     
