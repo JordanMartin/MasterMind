@@ -28,7 +28,7 @@ public class Combination {
     }
     
     
-    /*public static final ArrayList<Color> POSSIBLE_COLORS =  new ArrayList(8){
+    public static final ArrayList<Color> POSSIBLE_COLORS =  new ArrayList(8){
         {
             add(Color.BLUE);
             add(Color.GREEN);
@@ -39,20 +39,10 @@ public class Combination {
             add(Color.MAGENTA);
             add(Color.PINK);
         }
-    };*/
-    
-    public static final ArrayList<Integer> POSSIBLE_COLORS =  new ArrayList(8){
-        {
-            add(1);
-            add(2);
-            add(3);
-            add(4);
-            add(5);
-        }
     };
     
     int width; // Nombre de pions de la combinaison
-    ArrayList<Integer> pegs; // Represente la combinaison de width pions
+    ArrayList<Color> pegs; // Represente la combinaison de width pions
     
     Integer black = null; // Nombre de pions de bonne couleur mais mal placés
     Integer white = null; // Nombre de pions bien placés et de bonne couleur
@@ -65,7 +55,7 @@ public class Combination {
             pegs.add(null);
     }   
     
-    void setPeg(int pos, int color) throws Exception {
+    void setPeg(int pos, Color color) throws Exception {
         if(pos < width)
             pegs.set(pos, color);
         else 
@@ -76,7 +66,7 @@ public class Combination {
      * Attribu une couleur choisi aléatoirement à chaque pions de la combinaison
      */
     void randomCombination(){
-        for(int i = 0; i < pegs.size(); i++)
+        for(int i = 0; i < width; i++)
             pegs.set(i, getRandomColor());
         
         black = null;
@@ -95,10 +85,11 @@ public class Combination {
         white = 0;
         
         // Contiendra les positions des pions déjà contrôlés
-        ArrayList<Integer> pegsAffected = new ArrayList(pegs.size());
+        ArrayList<Integer> pegsAffected = new ArrayList(width);
         
-        for(int i = 0; i < this.pegs.size(); i++){    
+        for(int i = 0; i < width; i++){    
             // Le pion est de bonne couleur et bien placé
+            
             if(pegs.get(i) == comb.pegs.get(i))
             {
                 pegsAffected.add(i);
@@ -107,10 +98,12 @@ public class Combination {
             // La couleur d'un pion est bonne mais mal placé (on vérifie que le pions n'est pas déjà affecté)
             else if(comb.pegs.contains(pegs.get(i)) && !pegsAffected.contains(i))
             {
-                pegsAffected.add(i);
+                int indiceOfPegs = comb.pegs.indexOf(pegs.get(i)); // Indice du pions mal placé mais de bonne couleur dans la solution
+                pegsAffected.add(indiceOfPegs);
                 black++;
             }
-        }        
+        }   
+        
         return this.equalsTo(comb);
     }
     
@@ -124,7 +117,7 @@ public class Combination {
         if(this.width != combination.width || combination == null)
             return false;
         
-        for(int i = 0; i < pegs.size(); i++)
+        for(int i = 0; i < width; i++)
         {
             if(!pegs.get(i).equals(combination.pegs.get(i)))
                 return false;
@@ -136,8 +129,10 @@ public class Combination {
     /**
      * @return une couleur parmis celle présente dans POSSIBLE_COLORS 
      */
-    private Integer getRandomColor(){
-        int randomIndice = (int)(Math.random()*1000) % (POSSIBLE_COLORS.size()); // Retourne un entier entre 0 et width  
+    private Color getRandomColor(){
+        
+        int randomIndice = (int)(Math.random()*1000) % (POSSIBLE_COLORS.size()); // Retourne un entier entre 0 et width 
+        
         return POSSIBLE_COLORS.get(randomIndice);
     }    
     
@@ -145,10 +140,28 @@ public class Combination {
     public String toString(){
         String ret = "";
         
-        for(Integer c : pegs){
-            ret += c; 
+        for(Color c : pegs){
+            ret += colorToInt(c); 
             ret += " ";
         }
+        
         return ret;
+    }
+    
+    /**
+     * Converti une couleur en entier pour les test
+     * @param color
+     * @return 
+     */
+    int colorToInt(Color color){
+        
+        int i = 1;
+        
+        for(Color c : POSSIBLE_COLORS){            
+            if(color.equals(c))
+                return i;            
+            i++;
+        }        
+        return -1;
     }
 }
