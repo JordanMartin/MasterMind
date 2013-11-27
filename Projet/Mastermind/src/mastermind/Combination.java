@@ -9,7 +9,6 @@ import java.util.ArrayList;
  */
 public class Combination {    
     
-    
     public static void main(String args[]){
         
         Combination guess = new Combination(4);

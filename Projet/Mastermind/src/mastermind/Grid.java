@@ -26,7 +26,9 @@ public class Grid {
     void generateRandomCombination(){
         combinationToGuess = new Combination(nbPegs);
         combinationToGuess.randomCombination();
+        
     }
+
     
     /**
      * Algo de réolution de la ligne
@@ -61,12 +63,5 @@ public class Grid {
         gameGrid.add(new Combination(nbPegs));
         gameRound++;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+        
 }
