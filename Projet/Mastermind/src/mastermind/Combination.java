@@ -1,7 +1,9 @@
 package mastermind;
 
+import exception.CombinationException;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -26,7 +28,7 @@ public class Combination {
         System.out.println("BLACK : " + b.black);
     }
     
-    
+    public static final Color UNUSABLE_COLOR = Color.lightGray;
     public static final ArrayList<Color> POSSIBLE_COLORS =  new ArrayList(8){
         {
             add(Color.BLUE);
@@ -54,11 +56,20 @@ public class Combination {
             pegs.add(null);
     }   
     
-    void setPeg(int pos, Color color) throws Exception {
+    void setPeg(int pos, Color color) throws CombinationException {
         if(pos < width)
             pegs.set(pos, color);
         else 
-            throw new Exception("Dépassement d'indice");
+            throw new CombinationException("Dépassement d'indice");
+    }
+    
+    void setSamePegToAll(Color color)
+    {
+        // Comme al combinaison est modifié on remet à zéro les indicateurs
+        black = 0;
+        white = 0;
+        for(int i = 0; i < width; i++)
+            pegs.set(i, color);
     }
     
     /**
@@ -103,22 +114,27 @@ public class Combination {
             }
         }   
         
-        return this.equalsTo(comb);
+        return this.equals(comb);
     }
     
     /**
      * @param combination la combinaison à tester
      * @return vrai si les deux combinaisons sont les mêmes
      */
-    @SuppressWarnings({"null", "ConstantConditions"})
-    boolean equalsTo(Combination combination){
+    @Override
+    public boolean equals(Object o){
         
-        if(this.width != combination.width || combination == null)
+        if(!(o instanceof Combination))
+            return false;
+        
+        Combination combination = (Combination) o;
+        
+        if(this.width != combination.width)
             return false;
         
         for(int i = 0; i < width; i++)
         {
-            if(!pegs.get(i).equals(combination.pegs.get(i)))
+            if(pegs.get(i) == null || !pegs.get(i).equals(combination.pegs.get(i)))
                 return false;
         }
         
@@ -129,8 +145,8 @@ public class Combination {
      * @return une couleur parmis celle présente dans POSSIBLE_COLORS 
      */
     private Color getRandomColor(){
-        
-        int randomIndice = (int)(Math.random()*1000) % (POSSIBLE_COLORS.size()); // Retourne un entier entre 0 et width 
+        // Retourne un entier entre 0 et width 
+        int randomIndice = (int)(Math.random()*1000) % (POSSIBLE_COLORS.size()); 
         
         return POSSIBLE_COLORS.get(randomIndice);
     }    
@@ -144,11 +160,13 @@ public class Combination {
             ret += " ";
         }
         
+        ret += " | " + white + "W " + black + "B";
+        
         return ret;
     }
     
     /**
-     * Converti une couleur en entier pour les test
+     * Converti une couleur en entier. Pour les test
      * @param color
      * @return 
      */
@@ -156,11 +174,23 @@ public class Combination {
         
         int i = 1;
         
+        if(color == null)
+            return -1;
+        
         for(Color c : POSSIBLE_COLORS){            
             if(color.equals(c))
                 return i;            
             i++;
-        }        
-        return -1;
+        }
+        
+        return 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + this.width;
+        hash = 53 * hash + Objects.hashCode(this.pegs);
+        return hash;
     }
 }
