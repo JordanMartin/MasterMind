@@ -39,6 +39,7 @@ public class Combination {
             add(Color.RED);
             add(Color.MAGENTA);
             add(Color.PINK);
+            add(Color.CYAN);            
         }
     };
     
@@ -56,11 +57,11 @@ public class Combination {
             pegs.add(null);
     }   
     
-    void setPeg(int pos, Color color) throws CombinationException {
+    void setPeg(int pos, Color color) {
         if(pos < width)
             pegs.set(pos, color);
         else 
-            throw new CombinationException("Dépassement d'indice");
+            System.exit(5);
     }
     
     void setSamePegToAll(Color color)
@@ -118,7 +119,7 @@ public class Combination {
     }
     
     /**
-     * @param combination la combinaison à tester
+     * @param o la combinaison à tester
      * @return vrai si les deux combinaisons sont les mêmes
      */
     @Override
@@ -150,6 +151,21 @@ public class Combination {
         
         return POSSIBLE_COLORS.get(randomIndice);
     }    
+    
+    /**
+     * Retourne la combinaison sans les pions noirs et blancs
+     * @return un String cotenant la combinaison
+     */
+    public String get(){
+        String ret = "";
+        
+        for(Color c : pegs){
+            ret += colorToInt(c); 
+            ret += " ";
+        }
+        
+        return ret;
+    }
     
     @Override
     public String toString(){

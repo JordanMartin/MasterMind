@@ -25,7 +25,7 @@ public class Mastermind {
     
     public Mastermind(){
         // Création de la grille de jeux
-        grid = new Grid();
+        grid = new Grid();        
     }
     
     /**
@@ -35,19 +35,35 @@ public class Mastermind {
         Mastermind mastermind = new Mastermind();
         mastermind.setGameMode(SYSTEM_VS_SYSTEM);
         mastermind.setGridWidth(4);
-                
+        mastermind.generateRandomCombinationToGuess();
+        mastermind.findCombinationToGuess();
+    }
+    
+    /**
+     * Lance l'algorithme de résolution pour trouver la combinaison
+     */
+    public void findCombinationToGuess(){
+        
+        System.out.println("Combinaison à trouver : " + combinationToGuess.get() + "\n");
+        
+        Resolver r = new Resolver(combinationToGuess);
+        
+        while(!r.combinationFound)
+            System.out.println("Essai " + r.stepNumber + " : " + r.nextStep());
+        
+        System.out.println("\nTrouvé ! [" + r.stepNumber + " coups]  : " + r.combinationGuessed.get());
     }
     
     /**
      * Remplis la zone d'indication (nombre de pion correct et incorrect)
-     **/
+     */
     void fillIndicationArea(){
             
     }
     
     /**
      * Définit le mode de jeux
-     * @param gm Mode de jeux (voir les variables static)
+     * @param gm Mode de jeux (voir variables static)
      */
     public void setGameMode(int gm){
         
@@ -66,15 +82,21 @@ public class Mastermind {
     
      /**
      * Generation d'une combinaison aléatoire à deviner
-     **/
+     */
     void generateRandomCombinationToGuess(){
         combinationToGuess = new Combination(gridWidth);
         combinationToGuess.randomCombination();        
     }
     
+    /**
+     * Définit la largeur de la grille du jeux
+     * @param n nombre de pions en largeur
+     */
     void setGridWidth(int n) {
         if(n < 1)
             gridWidth = null;
+        else
+            gridWidth = n;
     }
     
 }
