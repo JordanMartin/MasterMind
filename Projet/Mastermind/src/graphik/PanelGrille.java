@@ -40,7 +40,7 @@ public class PanelGrille extends JPanel {
             {
                 
                 g2d.setColor(couleurs[i][e]);
-                g2d.fillOval(50+e*40,50+i*40, 30, 30);
+                g2d.fillOval(5+e*40,5+i*40, 30, 30);
             }
         }
         
