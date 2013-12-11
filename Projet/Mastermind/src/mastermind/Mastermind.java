@@ -1,6 +1,6 @@
 package mastermind;
 
-import java.util.Scanner;
+import graphik.*;
 
 /**
  *
@@ -12,11 +12,10 @@ public class Mastermind {
     
     Integer gameMode = null; // Modes de jeux
     // Les différents modes de jeux
-    public static final int SYSTEM_VS_SYSTEM = 0;
-    public static final int USER_VS_SYSTEM   = 1;
-    public static final int SYSTEM_VS_USER   = 2;
-    public static final int USER_VS_USER     = 4;
-    
+    public static final int ORDI_VS_ORDI = 0;
+    public static final int USER_VS_ORDI = 1;
+    public static final int ORDI_VS_USER = 2;
+    public static final int USER_VS_USER = 4;
    
     
     Integer gridWidth = null; // Nombre de pions par ligne
@@ -40,17 +39,18 @@ public class Mastermind {
      */
     public void askUserToConfigureGame(){
         
-        Scanner s = new Scanner(System.in);
+        ParametersUI ui = new ParametersUI();
+        ui.setModal(true); // Attend que la fenêtre soit fermée
+        ui.setLocationRelativeTo(null);
+        ui.setVisible(true);
         
-        System.out.print("Niveau de log (0: aucun, 1: messages importants, 2: maximum) : ");
-        setLogLevel(Integer.parseInt(s.nextLine())); 
+        if(ui.isCanceled)
+            System.exit(0);
         
-        System.out.print("Largeur de la grille de jeux : ");
-        setGridWidth(Integer.parseInt(s.nextLine()));
-        
-        System.out.print("Nombre d'essais maximum ? (0 pour illimité) : ");
-        setMaxTrials(Integer.parseInt(s.nextLine()));
-    
+        setLogLevel(ui.logLevel);
+        setGridWidth(ui.gridWidth);
+        setMaxTrials(ui.maxTrials);
+        setGameMode(ui.gameMode);
     }
     
     /**
@@ -59,7 +59,7 @@ public class Mastermind {
     public static void main(String[] args) {
         Mastermind mastermind = new Mastermind();
         
-        mastermind.setGameMode(SYSTEM_VS_SYSTEM);       
+        mastermind.setGameMode(ORDI_VS_ORDI);       
         mastermind.askUserToConfigureGame();
         mastermind.startGame();
     }
@@ -83,8 +83,7 @@ public class Mastermind {
         }else{
             Logger.write(2, logLevel, "Algorithme de résolution terminé : Combinaison trouvé");
             System.out.println("\nCombinaison trouvé ! [" + r.stepNumber + " coups]  : " + r.combinationGuessed.get());
-        }
-        
+        }        
     }
     
     /**
@@ -101,9 +100,9 @@ public class Mastermind {
     public void setGameMode(int gm){
         
         switch(gm){
-            case SYSTEM_VS_SYSTEM:
-            case USER_VS_SYSTEM:
-            case SYSTEM_VS_USER:
+            case ORDI_VS_ORDI:
+            case USER_VS_ORDI:
+            case ORDI_VS_USER:
             case USER_VS_USER:
                 gameMode = gm;
                 break;
@@ -112,11 +111,11 @@ public class Mastermind {
                 gameMode = null;
         }        
         
-        if(gameMode == SYSTEM_VS_SYSTEM)
+        if(gameMode == ORDI_VS_ORDI)
             Logger.write(1, logLevel, "Mode de jeu sélectionné : Ordi vs Ordi");
-        else if(gameMode == USER_VS_SYSTEM)
+        else if(gameMode == USER_VS_ORDI)
             Logger.write(1, logLevel, "Mode de jeu sélectionné : Utilisateur vs Ordi");
-        else if(gameMode == SYSTEM_VS_USER)
+        else if(gameMode == ORDI_VS_USER)
             Logger.write(1, logLevel, "Mode de jeu sélectionné : Ordi vs Utlisateur");
         else if(gameMode == USER_VS_USER)
             Logger.write(1, logLevel, "Mode de jeu sélectionné : Utilisateur vs Utilisateur");
@@ -186,7 +185,7 @@ public class Mastermind {
         
         
         switch(gameMode){
-            case SYSTEM_VS_SYSTEM:                                
+            case ORDI_VS_ORDI:                                
                 generateRandomCombinationToGuess();
                 findCombination();
                 break;

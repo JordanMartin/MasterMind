@@ -1,6 +1,5 @@
 package mastermind;
 
-import exception.CombinationException;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Objects;
