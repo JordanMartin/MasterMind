@@ -202,6 +202,26 @@ public class Combination {
         return 0;
     }
 
+       /**
+     * Converti une couleur en entier. Pour les test
+     * @param color
+     * @return 
+     */
+    Color intToColor(int color){
+        
+        
+        if(color < 0)
+            return null;
+        
+        for(Color c : POSSIBLE_COLORS){            
+            if(POSSIBLE_COLORS.get(color+1).equals(c))
+                return c;            
+           
+        }
+        
+        return POSSIBLE_COLORS.get(0);
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;

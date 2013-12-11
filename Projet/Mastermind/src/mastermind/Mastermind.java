@@ -1,5 +1,6 @@
 package mastermind;
 
+import java.awt.Color;
 import java.util.Scanner;
 
 /**
@@ -15,7 +16,7 @@ public class Mastermind {
     public static final int SYSTEM_VS_SYSTEM = 0;
     public static final int USER_VS_SYSTEM   = 1;
     public static final int SYSTEM_VS_USER   = 2;
-    public static final int USER_VS_USER     = 4;
+    public static final int USER_VS_USER     = 3;
     
    
     
@@ -50,6 +51,14 @@ public class Mastermind {
         
         System.out.print("Nombre d'essais maximum ? (0 pour illimité) : ");
         setMaxTrials(Integer.parseInt(s.nextLine()));
+        
+        System.out.print("Choisir le mode de jeu :\n"
+                + "1 - Ordi VS Ordi\n"
+                + "2 - Joueur VS Ordi\n"
+                + "3 - Ordi VS Joueur\n"
+                + "4 - Joueur VS Joueur\n"
+                + "Votre choix : ");
+        setGameMode(Integer.parseInt(s.nextLine())-1);
     
     }
     
@@ -58,8 +67,9 @@ public class Mastermind {
      */
     public static void main(String[] args) {
         Mastermind mastermind = new Mastermind();
+       
+       // mastermind.setGameMode(SYSTEM_VS_SYSTEM); 
         
-        mastermind.setGameMode(SYSTEM_VS_SYSTEM);       
         mastermind.askUserToConfigureGame();
         mastermind.startGame();
     }
@@ -99,19 +109,8 @@ public class Mastermind {
      * @param gm Mode de jeux (voir variables static)
      */
     public void setGameMode(int gm){
-        
-        switch(gm){
-            case SYSTEM_VS_SYSTEM:
-            case USER_VS_SYSTEM:
-            case SYSTEM_VS_USER:
-            case USER_VS_USER:
-                gameMode = gm;
-                break;
-                
-            default:
-                gameMode = null;
-        }        
-        
+        Logger.write(2, logLevel, "Valeur de gm pour setGameMode : "+ gm);        
+        gameMode = gm;
         if(gameMode == SYSTEM_VS_SYSTEM)
             Logger.write(1, logLevel, "Mode de jeu sélectionné : Ordi vs Ordi");
         else if(gameMode == USER_VS_SYSTEM)
@@ -120,6 +119,8 @@ public class Mastermind {
             Logger.write(1, logLevel, "Mode de jeu sélectionné : Ordi vs Utlisateur");
         else if(gameMode == USER_VS_USER)
             Logger.write(1, logLevel, "Mode de jeu sélectionné : Utilisateur vs Utilisateur");
+        else 
+            gameMode = null;
     }
     
      /**
@@ -183,15 +184,41 @@ public class Mastermind {
      */
     private void startGame() {
         Logger.write(1, logLevel, "Début d'une nouvelle partie");
-        
+        Logger.write(2, logLevel, "Valeur de gameMode : " + gameMode);
         
         switch(gameMode){
             case SYSTEM_VS_SYSTEM:                                
                 generateRandomCombinationToGuess();
                 findCombination();
                 break;
+            case USER_VS_SYSTEM:
+                setCombinaisonToGuess();
+                findCombination();
+                break;
             default:
                 System.out.println("MODE DE JEUX NON DISPO POUR LE MOMENT");
         }
     }
+    
+         public void setCombinaisonToGuess(){
+             
+             Scanner sc = new Scanner(System.in);
+             combinationToGuess = new Combination(gridWidth);
+             
+             
+             System.out.println("Veuillez saisir votre combinaison : ");
+             for (int i =0; i <gridWidth; i++ ){
+                 int sais = sc.nextInt();
+                 System.out.println(sais);
+                 Color c = combinationToGuess.intToColor(sc.nextInt());
+                 
+                 combinationToGuess.setPeg(i,c);
+                          
+             }
+             Logger.write(1, logLevel, "Combinaison du Joueur créée");
+             
+              
+             
+    }
 }
+    
