@@ -8,6 +8,7 @@
 !*.pdf
 !*.xlsx
 !*.xls
+!*.form
 
 ~*.doc*
 /Projet/dist/
