@@ -4,7 +4,7 @@ package mastermind;
 import java.util.ArrayList;
 
 /**
- *
+ * Cette classe représente la grille du mastermind
  * @author Jordan
  */
 public class Grid {
@@ -21,7 +21,7 @@ public class Grid {
     }    
     
     /**
-     * 
+     * Ajoute une nouvelle combinaison dans la grille
      * @param c combinaison à ajouter
      */
     void putCombinationOnGrid(Combination c){

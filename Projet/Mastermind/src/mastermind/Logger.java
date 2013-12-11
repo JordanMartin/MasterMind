@@ -1,7 +1,7 @@
 package mastermind;
 
 /**
- * Cette classe permet d'afficher des messages de debugage sur la bonne sortie
+ * Cette classe permet d'afficher des messages de débogage sur la bonne sortie
  * @author Jordan
  */
 public class Logger {    

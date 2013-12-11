@@ -4,12 +4,8 @@
  */
 package graphik;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -53,13 +49,10 @@ public class Graphik extends JFrame implements ActionListener{
     // Fenetres de param
     
     JFrame f = new JFrame();
-    Parametres m = new Parametres();
                 
     public Graphik()
     {       
         
-        m.setVisible(false);
-        f.add(m);
         f.setSize(500, 300);
         f.setVisible(false);
         selectionMode.addActionListener(this);
@@ -180,13 +173,6 @@ public class Graphik extends JFrame implements ActionListener{
                 m.setSize(500, 300);
                 m.setVisible(true);
 		ecrireConsole("Selection de mode");
-	} 
-        else if(source == parametrerRegles){
-                FParametres m = new FParametres();
-                m.setSize(500, 300);
-                m.setVisible(true);
-		ecrireConsole("Selection des paramètres");
-                
 	} 
         else if(source == rejouer){
 		ecrireConsole("Rejouer");

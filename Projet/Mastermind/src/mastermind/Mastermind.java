@@ -28,6 +28,18 @@ public class Mastermind {
     
     Combination combinationToGuess; // Combinaison à déviner
     
+     /**
+      * Classe main
+      * @param args the command line arguments
+      */
+    public static void main(String[] args) {
+        Mastermind mastermind = new Mastermind();
+        
+        mastermind.setGameMode(ORDI_VS_ORDI);       
+        mastermind.askUserToConfigureGame();
+        mastermind.startGame();
+    }
+    
     
     public Mastermind(){
         // Création de la grille de jeux
@@ -54,17 +66,6 @@ public class Mastermind {
     }
     
     /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Mastermind mastermind = new Mastermind();
-        
-        mastermind.setGameMode(ORDI_VS_ORDI);       
-        mastermind.askUserToConfigureGame();
-        mastermind.startGame();
-    }
-    
-    /**
      * Lance l'algorithme de résolution pour trouver la combinaison
      */
     public void findCombination(){
@@ -74,15 +75,15 @@ public class Mastermind {
         Logger.write(2, logLevel, "Début de l'algorithme de résolution");        
         Resolver r = new Resolver(combinationToGuess);
         
-        while(!r.combinationFound && !isGameOver(r.stepNumber))
-            System.out.println("Essai " + (r.stepNumber+1) + " : " + r.nextStep());
+        while(!r.isGussed() && !isGameOver(r.getStepNumber()))
+            System.out.println("Essai " + (r.getStepNumber()+1) + " : " + r.nextStep());
         
-        if(isGameOver(r.stepNumber)){
+        if(isGameOver(r.getStepNumber())){
             Logger.write(2, logLevel, "Algorithme de résolution interrompu : nombre d'essai maximum atteint");
             System.out.println("Perdu ! Nombre d'essai maximum atteint");
         }else{
             Logger.write(2, logLevel, "Algorithme de résolution terminé : Combinaison trouvé");
-            System.out.println("\nCombinaison trouvé ! [" + r.stepNumber + " coups]  : " + r.combinationGuessed.get());
+            System.out.println("\nCombinaison trouvé ! [" + r.getStepNumber() + " coups]  : " + r.combinationGuessed.get());
         }        
     }
     

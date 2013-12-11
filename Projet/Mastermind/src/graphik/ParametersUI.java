@@ -154,11 +154,7 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener 
         jPanel1.add(playUserVsOrdi);
 
         playOrdiVsUser.setText("Ordi vs Vous");
-        playOrdiVsUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                playOrdiVsUserActionPerformed(evt);
-            }
-        });
+  
         jPanel1.add(playOrdiVsUser);
 
         playUserVsUser.setText("Deux joueurs");
@@ -230,6 +226,7 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener 
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new ParametersUI().setVisible(true);
             }

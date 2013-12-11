@@ -10,24 +10,10 @@ import java.util.Objects;
  */
 public class Combination {    
     
-    public static void main(String args[]){
-        
-        Combination guess = new Combination(4);
-        guess.randomCombination();
-        
-        Combination b = new Combination(4);
-        b.randomCombination();
-        
-        System.out.println(b);
-        System.out.println(guess);
-        
-        b.compare(guess);
-        
-        System.out.println("WHITE : " + b.white);
-        System.out.println("BLACK : " + b.black);
-    }
-    
+    // Une couleur ne pouvant pas se trouver dans une combinaison
     public static final Color UNUSABLE_COLOR = Color.lightGray;
+    
+    // Toutes les couleurs possibles
     public static final ArrayList<Color> POSSIBLE_COLORS =  new ArrayList(8){
         {
             add(Color.BLUE);
@@ -48,7 +34,7 @@ public class Combination {
     Integer black = null; // Nombre de pions de bonne couleur mais mal placés
     Integer white = null; // Nombre de pions bien placés et de bonne couleur
     
-    Combination(int width){
+    public Combination(int width){
         pegs = new ArrayList(width);
         this.width = width;
         
@@ -56,14 +42,14 @@ public class Combination {
             pegs.add(null);
     }   
     
-    void setPeg(int pos, Color color) {
+    public void setPeg(int pos, Color color) {
         if(pos < width)
             pegs.set(pos, color);
         else 
             System.exit(5);
     }
     
-    void setSamePegToAll(Color color)
+    public void setSamePegToAll(Color color)
     {
         // Comme al combinaison est modifié on remet à zéro les indicateurs
         black = 0;
@@ -75,7 +61,7 @@ public class Combination {
     /**
      * Attribu une couleur choisi aléatoirement à chaque pions de la combinaison
      */
-    void randomCombination(){
+    public void randomCombination(){
         for(int i = 0; i < width; i++)
             pegs.set(i, getRandomColor());
         
@@ -89,7 +75,7 @@ public class Combination {
      * @param comb combinaison à comparer
      * @return vrai si elles sont identiques, faut sinon
      */
-    boolean compare(Combination comb){
+    public boolean compare(Combination comb){
         
         black = 0;
         white = 0;
@@ -181,11 +167,11 @@ public class Combination {
     }
     
     /**
-     * Converti une couleur en entier. Pour les test
+     * Converti une couleur en entier. Pour les tests
      * @param color
      * @return 
      */
-    int colorToInt(Color color){
+    public int colorToInt(Color color){
         
         int i = 1;
         
