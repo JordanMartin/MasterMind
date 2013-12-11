@@ -2,6 +2,7 @@ package mastermind;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -9,24 +10,10 @@ import java.util.ArrayList;
  */
 public class Combination {    
     
-    public static void main(String args[]){
-        
-        Combination guess = new Combination(4);
-        guess.randomCombination();
-        
-        Combination b = new Combination(4);
-        b.randomCombination();
-        
-        System.out.println(b);
-        System.out.println(guess);
-        
-        b.compare(guess);
-        
-        System.out.println("WHITE : " + b.white);
-        System.out.println("BLACK : " + b.black);
-    }
+    // Une couleur ne pouvant pas se trouver dans une combinaison
+    public static final Color UNUSABLE_COLOR = Color.lightGray;
     
-    
+    // Toutes les couleurs possibles
     public static final ArrayList<Color> POSSIBLE_COLORS =  new ArrayList(8){
         {
             add(Color.BLUE);
@@ -37,6 +24,7 @@ public class Combination {
             add(Color.RED);
             add(Color.MAGENTA);
             add(Color.PINK);
+            add(Color.CYAN);            
         }
     };
     
@@ -46,7 +34,7 @@ public class Combination {
     Integer black = null; // Nombre de pions de bonne couleur mais mal placés
     Integer white = null; // Nombre de pions bien placés et de bonne couleur
     
-    Combination(int width){
+    public Combination(int width){
         pegs = new ArrayList(width);
         this.width = width;
         
@@ -54,17 +42,26 @@ public class Combination {
             pegs.add(null);
     }   
     
-    void setPeg(int pos, Color color) throws Exception {
+    public void setPeg(int pos, Color color) {
         if(pos < width)
             pegs.set(pos, color);
         else 
-            throw new Exception("Dépassement d'indice");
+            System.exit(5);
+    }
+    
+    public void setSamePegToAll(Color color)
+    {
+        // Comme al combinaison est modifié on remet à zéro les indicateurs
+        black = 0;
+        white = 0;
+        for(int i = 0; i < width; i++)
+            pegs.set(i, color);
     }
     
     /**
      * Attribu une couleur choisi aléatoirement à chaque pions de la combinaison
      */
-    void randomCombination(){
+    public void randomCombination(){
         for(int i = 0; i < width; i++)
             pegs.set(i, getRandomColor());
         
@@ -78,7 +75,7 @@ public class Combination {
      * @param comb combinaison à comparer
      * @return vrai si elles sont identiques, faut sinon
      */
-    boolean compare(Combination comb){
+    public boolean compare(Combination comb){
         
         black = 0;
         white = 0;
@@ -103,22 +100,27 @@ public class Combination {
             }
         }   
         
-        return this.equalsTo(comb);
+        return this.equals(comb);
     }
     
     /**
-     * @param combination la combinaison à tester
+     * @param o la combinaison à tester
      * @return vrai si les deux combinaisons sont les mêmes
      */
-    @SuppressWarnings({"null", "ConstantConditions"})
-    boolean equalsTo(Combination combination){
+    @Override
+    public boolean equals(Object o){
         
-        if(this.width != combination.width || combination == null)
+        if(!(o instanceof Combination))
+            return false;
+        
+        Combination combination = (Combination) o;
+        
+        if(this.width != combination.width)
             return false;
         
         for(int i = 0; i < width; i++)
         {
-            if(!pegs.get(i).equals(combination.pegs.get(i)))
+            if(pegs.get(i) == null || !pegs.get(i).equals(combination.pegs.get(i)))
                 return false;
         }
         
@@ -129,14 +131,17 @@ public class Combination {
      * @return une couleur parmis celle présente dans POSSIBLE_COLORS 
      */
     private Color getRandomColor(){
-        
-        int randomIndice = (int)(Math.random()*1000) % (POSSIBLE_COLORS.size()); // Retourne un entier entre 0 et width 
+        // Retourne un entier entre 0 et width 
+        int randomIndice = (int)(Math.random()*1000) % (POSSIBLE_COLORS.size()); 
         
         return POSSIBLE_COLORS.get(randomIndice);
     }    
     
-    @Override
-    public String toString(){
+    /**
+     * Retourne la combinaison sans les pions noirs et blancs
+     * @return un String cotenant la combinaison
+     */
+    public String get(){
         String ret = "";
         
         for(Color c : pegs){
@@ -147,20 +152,46 @@ public class Combination {
         return ret;
     }
     
+    @Override
+    public String toString(){
+        String ret = "";
+        
+        for(Color c : pegs){
+            ret += colorToInt(c); 
+            ret += " ";
+        }
+        
+        ret += " | " + white + "W " + black + "B";
+        
+        return ret;
+    }
+    
     /**
-     * Converti une couleur en entier pour les test
+     * Converti une couleur en entier. Pour les tests
      * @param color
      * @return 
      */
-    int colorToInt(Color color){
+    public int colorToInt(Color color){
         
         int i = 1;
+        
+        if(color == null)
+            return -1;
         
         for(Color c : POSSIBLE_COLORS){            
             if(color.equals(c))
                 return i;            
             i++;
-        }        
-        return -1;
+        }
+        
+        return 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + this.width;
+        hash = 53 * hash + Objects.hashCode(this.pegs);
+        return hash;
     }
 }

@@ -1,0 +1,13 @@
+*
+!*/
+
+!.gitignore
+!*.java
+!*.docx
+!*.doc
+!*.pdf
+!*.xlsx
+!*.xls
+
+~*.doc*
+/Projet/dist/

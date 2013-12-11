@@ -4,10 +4,9 @@
  */
 package graphik;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 /**
  *
@@ -15,11 +14,16 @@ import javax.swing.JPanel;
  */
 public class FModeJeu extends JFrame implements ActionListener {
     ModeJeu m = new ModeJeu();
+    JButton valider = new JButton("Valider les modifications");
     public FModeJeu()
     {
-        
+        JPanel pane = (JPanel)getContentPane();
+        FlowLayout flow = new FlowLayout(FlowLayout.CENTER);
+        valider.addActionListener(this);
+        pane.setLayout(flow);
         m.setVisible(true);
-        add(m);
+        pane.add(m);
+        pane.add(valider);
         setSize(500, 300);
         setVisible(true);
     }
@@ -27,8 +31,8 @@ public class FModeJeu extends JFrame implements ActionListener {
         {
             Object source = e.getSource();
 
-            /*if(source == m.jButton1){
-                    this.dispose();
-            }*/
+            if(source == valider){
+                    dispose();
+            }
         }
 }
