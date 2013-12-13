@@ -190,6 +190,13 @@ public class Mastermind {
                 generateRandomCombinationToGuess();
                 findCombination();
                 break;
+            
+            case USER_VS_ORDI:
+                combinationToGuess = new Combination(gridWidth);
+                combinationToGuess.askPegsFromConsole();
+                
+                findCombination();
+                break;
             default:
                 System.out.println("MODE DE JEUX NON DISPO POUR LE MOMENT");
         }

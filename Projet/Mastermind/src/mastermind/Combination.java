@@ -3,12 +3,18 @@ package mastermind;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Scanner;
 
 /**
  *
  * @author Jordan
  */
 public class Combination {    
+    
+    public static void main(String[] args){
+        Combination c = new Combination(4);
+        c.askPegsFromConsole();
+    }
     
     // Une couleur ne pouvant pas se trouver dans une combinaison
     public static final Color UNUSABLE_COLOR = Color.lightGray;
@@ -42,6 +48,11 @@ public class Combination {
             pegs.add(null);
     }   
     
+    /**
+     * Définit la couleur du pion à la position pos dans la combinaison
+     * @param pos Position du pion dont on veut changer la couleur
+     * @param color Nouvelle couleur du pion
+     */
     public void setPeg(int pos, Color color) {
         if(pos < width)
             pegs.set(pos, color);
@@ -49,6 +60,10 @@ public class Combination {
             System.exit(5);
     }
     
+    /**
+     * Définit la couleur de tous les pions de la combinaison à la même couleur
+     * @param color nouvelle couleur de tous les pions
+     */
     public void setSamePegToAll(Color color)
     {
         // Comme al combinaison est modifié on remet à zéro les indicateurs
@@ -56,6 +71,43 @@ public class Combination {
         white = 0;
         for(int i = 0; i < width; i++)
             pegs.set(i, color);
+    }
+    
+    public void askPegsFromConsole(){
+        
+        Scanner s = new Scanner(System.in);
+        ArrayList<Integer> combinationInt;
+        
+        do{
+            System.out.print("Entrez les pions de la combinaison séparés par un espace (" + width + " pions) : ");
+            String combinationString = s.nextLine();
+
+            combinationInt = new ArrayList(width);
+            
+            for(int i = 0; i < combinationString.length(); i++)
+            {
+                char tmpC = combinationString.charAt(i);
+                
+                if(tmpC == ' ')
+                    continue;
+                if(Character.isDigit(tmpC))
+                    combinationInt.add(Character.getNumericValue(tmpC)-1);
+                else break;
+            }
+            
+            if(combinationInt.size() != width){
+                System.out.println("Combinaison entrée incorrect. Elle doit : \n"
+                        + " - Contenir " + width + " entiers séparés par un espace\n"
+                        + " - Chaque entier doit être compris entre 0 et " + (POSSIBLE_COLORS.size() - 1) + "\n"
+                        + "Réesayez");
+            }else
+                break;
+            
+        }while(true);
+        
+        
+        for(int i = 0; i < combinationInt.size(); i++)
+            setPeg(i, POSSIBLE_COLORS.get(combinationInt.get(i)));        
     }
     
     /**
