@@ -16,36 +16,37 @@ import javax.swing.JPanel;
  *
  * @author p1202922
  */
-public class PanelGrille extends JPanel {
+public class PanelGrille extends JPanel
+{
 
     Color[][] couleurs;
-    /** @param n  the desired number of circles. */
-    PanelGrille(Color[][] couleurs) {
+
+    /**
+     * @param n the desired number of circles.
+     */
+    PanelGrille(Color[][] couleurs)
+      {
         super(true);
         this.couleurs = couleurs;
-    }
-
+      }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g)
+      {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(
             RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON);
-        setSize(40*4+50,40*10+50);
-        for(int i = 0; i<10; i++)
-        {
-            for(int e = 0; e<4; e++)
-            {
-                
+        setSize(40 * 4 + 50, 40 * 10 + 50);
+        for (int i = 0; i < 10; i++) {
+            for (int e = 0; e < 4; e++) {
+
                 g2d.setColor(couleurs[i][e]);
-                g2d.fillOval(5+e*40,5+i*40, 30, 30);
+                g2d.fillOval(5 + e * 40, 5 + i * 40, 30, 30);
             }
         }
-        
-        
-    }
-}
-    
 
+
+      }
+}

@@ -19,16 +19,19 @@ import javax.swing.JScrollPane;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 import javax.swing.ScrollPaneLayout;
 
-public class Grille extends JScrollPane{
+public class Grille extends JScrollPane
+{
+
     PanelGrille grille;
+
     public Grille(Color[][] couleurs)
-    {
-        super(VERTICAL_SCROLLBAR_ALWAYS,HORIZONTAL_SCROLLBAR_ALWAYS);
-        setSize(40*4+50,40*10+50);
+      {
+        super(VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_ALWAYS);
+        setSize(40 * 4 + 50, 40 * 10 + 50);
         grille = new PanelGrille(couleurs);
         ScrollPaneLayout flow = new ScrollPaneLayout();
         setLayout(flow);
         setVisible(true);
-        setViewportView( grille);
-    }
+        setViewportView(grille);
+      }
 }

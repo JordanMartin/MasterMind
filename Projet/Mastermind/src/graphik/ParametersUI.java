@@ -12,26 +12,28 @@ import mastermind.Mastermind;
  *
  * @author Jordan
  */
-public class ParametersUI extends javax.swing.JDialog implements ActionListener {
+public class ParametersUI extends javax.swing.JDialog implements ActionListener
+{
 
     public Integer maxTrials;
     public Integer gridWidth;
-    public Integer logLevel;    
+    public Integer logLevel;
     public boolean isCanceled = false;
     public Integer gameMode;
-    
+
     /**
      * Creates new form ParametersUI
      */
-    public ParametersUI() {
+    public ParametersUI()
+      {
         initComponents();
-        
+
         exitButton.addActionListener(this);
         playOrdiVsOrdi.addActionListener(this);
         playOrdiVsUser.addActionListener(this);
         playUserVsOrdi.addActionListener(this);
         playUserVsUser.addActionListener(this);
-    }
+      }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,7 +42,8 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener 
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+      {
         java.awt.GridBagConstraints gridBagConstraints;
 
         logLevelRadioGroup = new javax.swing.ButtonGroup();
@@ -154,7 +157,7 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener 
         jPanel1.add(playUserVsOrdi);
 
         playOrdiVsUser.setText("Ordi vs Vous");
-  
+
         jPanel1.add(playOrdiVsUser);
 
         playUserVsUser.setText("Deux joueurs");
@@ -168,39 +171,49 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener 
         getContentPane().add(jPanel3);
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+      }// </editor-fold>//GEN-END:initComponents
 
     @Override
-    public void actionPerformed(ActionEvent e){
-        
-        if(e.getSource() == playOrdiVsOrdi)
+    public void actionPerformed(ActionEvent e)
+      {
+
+        if (e.getSource() == playOrdiVsOrdi) {
             gameMode = Mastermind.ORDI_VS_ORDI;
-        else if(e.getSource() == playOrdiVsUser)
+        }
+        else if (e.getSource() == playOrdiVsUser) {
             gameMode = Mastermind.ORDI_VS_USER;
-        else if(e.getSource() == playUserVsOrdi)
+        }
+        else if (e.getSource() == playUserVsOrdi) {
             gameMode = Mastermind.USER_VS_ORDI;
-        else if(e.getSource() == playUserVsUser)
+        }
+        else if (e.getSource() == playUserVsUser) {
             gameMode = Mastermind.USER_VS_USER;
-        else if(e.getSource() == exitButton)
+        }
+        else if (e.getSource() == exitButton) {
             isCanceled = true;
-                
-        gridWidth = (Integer)gridWidthSpinner.getValue();
-        maxTrials = (Integer)maxTrialsSpinner.getValue();
-        
-        if(logLevel0.isSelected())
+        }
+
+        gridWidth = (Integer) gridWidthSpinner.getValue();
+        maxTrials = (Integer) maxTrialsSpinner.getValue();
+
+        if (logLevel0.isSelected()) {
             logLevel = 0;
-        else if(logLevel1.isSelected())
+        }
+        else if (logLevel1.isSelected()) {
             logLevel = 1;
-        else 
+        }
+        else {
             logLevel = 2;
-        
+        }
+
         dispose();
-    }
-    
+      }
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[])
+      {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -225,13 +238,15 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener 
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+              {
                 new ParametersUI().setVisible(true);
-            }
+              }
         });
-    }
+      }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exitButton;
     private javax.swing.JSpinner gridWidthSpinner;
