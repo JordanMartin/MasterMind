@@ -88,11 +88,26 @@ public class Mastermind {
     }
     
     /**
-     * Remplis la zone d'indication (nombre de pion correct et incorrect)
+     * Demmande au joueur d'entrer des combinaisons afin de trouver celle à deviner
+     * @return true si la combinaison a été trouvé dans le nombre d'essai impartis
      */
-    void fillIndicationArea(){
+    private boolean askUserForResolution(){
+         
+        int trials = 0;
+
+        Combination playerCombination = new Combination(gridWidth);
+        
+        do{
+            trials++;
+            playerCombination.askPegsFromConsole();            
+            playerCombination.compare(combinationToGuess);
+            System.out.println("Votre essai n°" + trials + " : " + playerCombination);
             
+        }while(!playerCombination.equals(combinationToGuess) && !isGameOver(trials));
+        
+        return !isGameOver(trials) && playerCombination.equals(combinationToGuess);
     }
+
     
     /**
      * Définit le mode de jeux
@@ -192,13 +207,49 @@ public class Mastermind {
                 break;
             
             case USER_VS_ORDI:
+                // Demande au joueur de rentrer sa combinaison
                 combinationToGuess = new Combination(gridWidth);
                 combinationToGuess.askPegsFromConsole();
                 
+                // Recherche de la solution avec l'algorithme
                 findCombination();
                 break;
+                
+            case USER_VS_USER:
+                playUserVsUser();               
+                break;
+            
+            case ORDI_VS_USER:
+                playOrdiVsUser();               
+                break;
+                
             default:
                 System.out.println("MODE DE JEUX NON DISPO POUR LE MOMENT");
         }
     }
+    
+    private void playUserVsUser(){        
+        System.out.println("Joueur 1 : Entrez la combinaison à faire deviner");
+        combinationToGuess = new Combination(gridWidth);
+        combinationToGuess.askPegsFromConsole(); 
+        
+        System.out.println("Joueur 2 : Entrez les combinaisons et tentez de trouver la bonne");
+        
+        if(askUserForResolution())
+            System.out.println("Bravo vous avez trouver la bonne combinaison !");
+        else
+            System.out.println("Perdu ! Vous avez atteint le nombre d'essai max.");
+       
+    }
+    
+    private void playOrdiVsUser(){        
+        generateRandomCombinationToGuess();
+        
+        System.out.println("L'ordinateur vient de générer une combinaison. A vous de la deviner !");
+        
+        if(askUserForResolution())
+            System.out.println("Bravo vous avez trouver la bonne combinaison !");
+        else
+            System.out.println("Perdu ! Vous avez atteint le nombre d'essai max.");
+    }    
 }

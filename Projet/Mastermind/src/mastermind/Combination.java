@@ -12,8 +12,16 @@ import java.util.Scanner;
 public class Combination {    
     
     public static void main(String[] args){
-        Combination c = new Combination(4);
-        c.askPegsFromConsole();
+        
+        while(true){
+            Combination a = new Combination(4);
+            a.askPegsFromConsole();
+            Combination c = new Combination(4);
+            c.askPegsFromConsole();
+            
+            c.compare(a);
+            System.out.println(c);
+        }
     }
     
     // Une couleur ne pouvant pas se trouver dans une combinaison
@@ -135,20 +143,21 @@ public class Combination {
         // Contiendra les positions des pions déjà contrôlés
         ArrayList<Integer> pegsAffected = new ArrayList(width);
         
-        for(int i = 0; i < width; i++){    
-            // Le pion est de bonne couleur et bien placé
-            
-            if(pegs.get(i) == comb.pegs.get(i))
-            {
-                pegsAffected.add(i);
+        for(int i = 0; i < width; i++){
+            // Test si le pions à la position i est bien placé
+            if(pegs.get(i) == comb.pegs.get(i)){
                 white++;
+                pegsAffected.add(i);
             }
-            // La couleur d'un pion est bonne mais mal placé (on vérifie que le pions n'est pas déjà affecté)
-            else if(comb.pegs.contains(pegs.get(i)) && !pegsAffected.contains(i))
-            {
-                int indiceOfPegs = comb.pegs.indexOf(pegs.get(i)); // Indice du pions mal placé mais de bonne couleur dans la solution
-                pegsAffected.add(indiceOfPegs);
-                black++;
+        }
+        
+        for(int i = 0; i < width; i++){            
+            for(int j = 0; j < width; j++){
+                // Test si un pions est de bonne couleur mais mal placé
+                if(!pegsAffected.contains(j) && comb.pegs.get(j) == pegs.get(i)){                   
+                    black++;
+                    pegsAffected.add(j);                                      
+                }
             }
         }   
         
