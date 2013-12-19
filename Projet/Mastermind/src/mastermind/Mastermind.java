@@ -3,7 +3,7 @@ package mastermind;
 import graphik.*;
 
 /**
- *
+ * Celle classe est celle qui représente le jeu avec tous ces options
  * @author Jordan
  */
 public class Mastermind
@@ -49,15 +49,6 @@ public class Mastermind
       }
 
     /**
-     * Initialize la grille du jeux
-     */
-    public Mastermind()
-      {
-        // Création de la grille de jeux
-        grid = new Grid();
-      }
-
-    /**
      * Demande à l'utilisateur la configuration du jeux désirée
      */
     public void askUserToConfigureGame()
@@ -72,6 +63,7 @@ public class Mastermind
             System.exit(0);
         }
 
+        // Définition des paramètres entrées par l'utilisateur
         setLogLevel(ui.logLevel);
         setGridWidth(ui.gridWidth);
         setMaxTrials(ui.maxTrials);
@@ -234,7 +226,7 @@ public class Mastermind
       }
 
     /**
-     * Commence le jeu selon le mode
+     * Commence le jeu et selectionne le bon mode
      */
     private void startGame()
       {

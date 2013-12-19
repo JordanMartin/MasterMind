@@ -13,7 +13,7 @@ public class Combination
 {
 
     /**
-     *
+     * Classe main
      * @param args
      */
     public static void main(String[] args)
@@ -103,7 +103,7 @@ public class Combination
       }
 
     /**
-     *
+     * Demande à l'utilisateur de rentrer une combinaison
      */
     public void askPegsFromConsole()
       {
@@ -123,8 +123,12 @@ public class Combination
                 if (tmpC == ' ') {
                     continue;
                 }
+                                
                 if (Character.isDigit(tmpC)) {
-                    combinationInt.add(Character.getNumericValue(tmpC) - 1);
+                    int value = Character.getNumericValue(tmpC);
+                    if(value > 0 && value < POSSIBLE_COLORS.size())
+                    
+                        combinationInt.add(Character.getNumericValue(tmpC) - 1);
                 }
                 else {
                     break;

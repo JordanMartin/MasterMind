@@ -3,7 +3,8 @@ package mastermind;
 import java.util.ArrayList;
 
 /**
- * Cette classe représente la grille du mastermind
+ * Cette classe représente la grille du mastermind.
+ * Elle n'apporte pour l'instant aucune fonctiinnalités.
  *
  * @author Jordan
  */
@@ -29,7 +30,5 @@ public class Grid
       {
         gameGrid.add(c);
         gameRound++;
-
-        System.out.println("Essai : " + gameGrid.get(gameRound - 1));
       }
 }
