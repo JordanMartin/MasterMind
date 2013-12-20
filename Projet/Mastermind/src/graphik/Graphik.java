@@ -9,60 +9,70 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import mastermindf.Combination;
+import mastermindf.Logger;
+import mastermindf.Mastermind;
+import mastermindf.Resolver;
 
 /**
  *
  * @author p1202922
  */
-public class Graphik extends JFrame implements ActionListener
-{
+public class Graphik extends JFrame implements ActionListener {
 
     JPanel panel = new JPanel();
     JLabel text1 = new JLabel("MasterMind");
     JTextArea cons = new JTextArea("");
     JTextArea params = new JTextArea("");
-    JTextField jtfX = new JTextField("X(1-4)");
-    JComboBox<String> a = new JComboBox();
-    JButton confirmerModif = new JButton("Confirmer");
-    JButton selectionMode = new JButton("Selectionner le mode de jeu");
-    JButton parametrerRegles = new JButton("Paramètres");
     JButton rejouer = new JButton("Rejouer");
     JButton valider = new JButton("valider");
     Color[][] couleurs;
     String console;
-    int courant = 0;
+    int courant = 1;
     //Paramètres d'application
     int type_de_jeu = 3;
     boolean couleur_double = true;
     int nb_essais = 10;
     int nb_brique = 4;
+    int logLevel;
     String paramResume = new String();
+    Grille grille;
     // Fenetres de param
     JFrame f = new JFrame();
-
-    public Graphik()
-      {
-
+    ParametersUI m = new ParametersUI();
+    Combination combinationToGuess;
+    Resolver r;
+    /**
+     * Classe main
+     *
+     * @param logLevel Le niveau de log du jeu
+     * @param gameMode Le mode de jeu
+     * @param nb_brique Le nombre de briques par ligne
+     * @param nb_essai_max Le nombre max d'essais avant echec
+     */
+    public Graphik(int logLevel, int gameMode, int nb_brique, int nb_essai_max) {
+        
+        type_de_jeu = gameMode;
+        this.logLevel = logLevel;
+        this.nb_brique = nb_brique;
+        this.nb_essais = nb_essai_max;
+        m.setVisible(false);
+        //f.add(m);
         f.setSize(500, 300);
         f.setVisible(false);
-        selectionMode.addActionListener(this);
-        parametrerRegles.addActionListener(this);
         rejouer.addActionListener(this);
         valider.addActionListener(this);
-        confirmerModif.addActionListener(this);
         cons.setSize(new Dimension(500, 500));
         cons.setBackground(new Color(0, 0, 0));
         actualiserParams();
-        couleurs = new Color[nb_essais][nb_brique];
-        for (int i = 0; i < nb_essais; i++) {
+        couleurs = new Color[nb_brique][1];
+        for (int i = 0; i < 1; i++) {
             for (int e = 0; e < nb_brique; e++) {
-                couleurs[i][e] = Color.GRAY;
+                couleurs[e][i] = Color.GRAY;
             }
         }
         setTitle("MasterMind Auto");
@@ -73,17 +83,11 @@ public class Graphik extends JFrame implements ActionListener
         setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 
         setLayout(null);
-        Grille grille = new Grille(couleurs);
-        grille.setBounds(350, 40, 200, 400);
+        grille = new Grille(couleurs,4,1);
+        grille.setBounds(350, 40, 300, 300);
         add(grille);
-
-        jtfX.setBounds(390, 500, 100, 20);
-        add(jtfX);
-        a.setBounds(500, 500, 90, 20);
-        add(a);
-        valider.setBounds(390, 560, 200, 20);
-        confirmerModif.setBounds(390, 530, 200, 20);
-        add(confirmerModif);
+        
+        valider.setBounds(390, 560, 200, 30);
         add(valider);
 
 
@@ -94,34 +98,43 @@ public class Graphik extends JFrame implements ActionListener
         add(cons);
         cons.setBounds(700, 100, 250, 400);
 
-        selectionMode.setBounds(300, 600, 100, 30);
-        parametrerRegles.setBounds(450, 600, 100, 30);
         rejouer.setBounds(600, 600, 100, 30);
-        add(selectionMode);
-        add(parametrerRegles);
         add(rejouer);
 
         params.setBounds(30, 100, 300, 300);
         add(params);
         setVisible(true);
+        if(gameMode == Mastermind.ORDI_VS_USER)
+        {
+            combinationToGuess = new Combination(nb_brique);
+            generateRandomCombinationToGuess();
+            ecrireConsole("Combinaison générée. Trouvez-la !");
+        }
+        if(gameMode == Mastermind.ORDI_VS_ORDI)
+        {
+            combinationToGuess = new Combination(nb_brique);
+            generateRandomCombinationToGuess();
+            ecrireConsole("Combinaison générée. L'ordi va la trouver !");
+            r = new Resolver(combinationToGuess);
+        }
 
-        a.addItem("Noir");
-        a.addItem("Blanc");
-        a.addItem("Vert");
-        a.addItem("Jaune");
-        a.addItem("Violet");
-        a.addItem("Bleu");
-        a.addItem("Rouge");
 
-
-      }
-
-    public void actualiserParams()
+    }
+    /**
+     * Reprends l'utilisation de generateRandomCombinationToGuess() de
+     * MasterMind
+     */
+    void generateRandomCombinationToGuess()
       {
-        int type_de_jeu = 3;
-        boolean couleur_double = true;
-        int nb_essais = 10;
-        int nb_brique = 4;
+        Logger.write(1, logLevel, "Génération d'une combinaison aléatoire");
+        combinationToGuess.randomCombination();
+        Logger.write(2, logLevel, "Combinaison aléatoire générée : " + combinationToGuess.get());
+      }
+    /**
+     * Permet d'afficher les paramètres du jeu dans l'interface graphique
+     * 
+     */
+    public void actualiserParams() {
         paramResume = "Paramètres de jeu : \n";
         switch (type_de_jeu) {
             case 1:
@@ -139,111 +152,187 @@ public class Graphik extends JFrame implements ActionListener
         }
         if (couleur_double) {
             paramResume += "Les couleurs doubles sont autorisées\n";
-        }
-        else {
+        } else {
             paramResume += "Les couleurs doubles sont interdites\n";
         }
         paramResume += nb_essais + " essais autorisés\n";
         paramResume += nb_brique + " briques\n";
+        
+        paramResume += "Mode de jeu : ";
+        switch(type_de_jeu)
+        {
+            case Mastermind.ORDI_VS_ORDI:
+                paramResume += "Ordi vs Ordi";
+                break;
+            case Mastermind.ORDI_VS_USER:
+                paramResume += "Ordi vs User";
+                break;
+            case Mastermind.USER_VS_ORDI:
+                paramResume += "User vs Ordi";
+                break;
+            case Mastermind.USER_VS_USER:
+                paramResume += "User vs User";
+                break;
+        }
         params.setText(paramResume);
-      }
-
-    public void setColor(int i, int e, Color col)
-      {
+    }
+    /**
+     * Permet d'affecter une coleur à un élement du tableau de couleur
+     * 
+     *
+     */
+    public void setColor(int i, int e, Color col) {
         couleurs[i][e] = col;
         repaint();
-      }
-
-    public void ecrireConsole(String ligne)
-      {
+    }
+    
+    /**
+     * écrit à la console de l'interface
+     * 
+     *
+     */
+    public void ecrireConsole(String ligne) {
         console = console + ligne + "\n";
         cons.setText(console);
-      }
-
-    public void actionPerformed(ActionEvent e)
-      {
+    }
+    
+    /**
+     * Gestion des évenements
+     * 
+     *
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if (source == selectionMode) {
-            FModeJeu m = new FModeJeu();
-            m.setSize(500, 300);
-            m.setVisible(true);
-            ecrireConsole("Selection de mode");
-        }
-        else if (source == rejouer) {
+        if (source == rejouer) {
+            console = "";
             ecrireConsole("Rejouer");
-            for (int i = 0; i < nb_essais; i++) {
-                for (int ei = 0; ei < nb_brique; ei++) {
-                    setColor(i, ei, Color.GRAY);
+            courant = 1;
+            remove(grille);
+
+            
+            couleurs = new Color[nb_brique][1];
+            for (int i = 0; i < 1; i++) {
+                for (int o = 0; o < nb_brique; o++) {
+                    couleurs[o][i] = Color.GRAY;
                 }
             }
-        }
-        else if (source == valider) {
-            ecrireConsole("Validation");
-
-
-
-
-            /*
-                        
-                        
-                        
-             ICI LE CODE DE VéRIFICATION
-                        
-                        
-             */
-            courant = courant + 1;
-            if (courant > 10) {
-                ecrireConsole("---- FIN -----");
-                courant = -1;
+            grille = new Grille(couleurs, 4, 1);
+            grille.setBounds(350, 40, 300, 300);
+            add(grille);
+            repaint();
+            grille.repaint();
+            if(type_de_jeu == Mastermind.ORDI_VS_USER)
+            {
+                combinationToGuess = new Combination(nb_brique);
+                generateRandomCombinationToGuess();
+                ecrireConsole("Combinaison générée. Trouvez-la !");
             }
-        }
-        else if (source == confirmerModif) {
-            try {
-                int indice = Integer.parseInt(jtfX.getText());
-                if (indice > 0 && indice <= nb_brique) {
-                    indice--;
-                    switch (a.getSelectedIndex()) {
-                        case 0:
-                            setColor(courant, indice, Color.BLACK);
-                            break;
-                        case 1:
-                            setColor(courant, indice, Color.WHITE);
-                            break;
-                        case 2:
-                            setColor(courant, indice, Color.GREEN);
-                            break;
-                        case 3:
-                            setColor(courant, indice, Color.YELLOW);
-                            break;
-                        case 4:
-                            setColor(courant, indice, Color.PINK);
-                            break;
-                        case 5:
-                            setColor(courant, indice, Color.BLUE);
-                            break;
-                        case 6:
-                            setColor(courant, indice, Color.RED);
-                            break;
+            
+            if(type_de_jeu == Mastermind.ORDI_VS_ORDI)
+            {
+                combinationToGuess = new Combination(nb_brique);
+                generateRandomCombinationToGuess();
+                ecrireConsole("Combinaison générée. L'ordi va la trouver !");
+                r = new Resolver(combinationToGuess);
+            }
+        } else if (source == valider) {
+            
+            courant++;
+            if(courant<= nb_essais)
+            {
+                ecrireConsole("Validation");
+                if(type_de_jeu == Mastermind.ORDI_VS_USER)
+                {
+                    Combination playerCombination = new Combination(nb_brique);
+                    for(int i = 0; i<nb_brique;i++)
+                    {
+                        playerCombination.setPeg(i, grille.getPegAt(i));
+                    }    
+                    if(playerCombination.compare(combinationToGuess))
+                    {
+                        ecrireConsole("VICTOIRE");
+                        ecrireConsole("---- FIN DU JEU -----");
+                        ecrireConsole("Cliquez à nouveau sur valider pour recommencer un jeu");
+                        courant= nb_essais + 1;
+                        return;
                     }
-
-                    ecrireConsole("Effectué");
+                    else
+                    {
+                        Integer w = 0,b = 0;
+                        ecrireConsole("Echec : White : " + playerCombination.getWhite() + " Black : "+playerCombination.getBlack());
+                    }
                 }
-                else {
-                    ecrireConsole("Erreur");
+                else if(type_de_jeu == Mastermind.ORDI_VS_ORDI)
+                {
+                    Combination playerCombination = new Combination(nb_brique);
+                    playerCombination = r.nextStep();
+                    grille.setAllColors(playerCombination);
+                    if(r.isGussed())
+                    {
+                        ecrireConsole("VICTOIRE");
+                        ecrireConsole("---- FIN DU JEU -----");
+                        ecrireConsole("Cliquez à nouveau sur valider pour recommencer un jeu");
+                        courant= nb_essais + 1;
+                        return;
+                    }
+                    else
+                    {
+                        Integer w = 0,b = 0;
+                        ecrireConsole("Echec : White : " + playerCombination.getWhite() + " Black : "+playerCombination.getBlack());
+                    }
                 }
-            } catch (NumberFormatException h) {
-                ecrireConsole("Erreur");
+                grille.improveSize();
+                grille.nextStep();
+            }
+            else if (courant > nb_essais) {
+                grille.nextStep();
+                ecrireConsole("---- FIN DU JEU -----");
+                ecrireConsole("Cliquez à nouveau sur valider pour recommencer un jeu");
+                
             }
         }
-      }
+        if(console.length()>300)
+        {
+            console = console.substring(console.length()-300);
+        }
+    }
 
+    
     /**
-     * @param args the command line arguments
+     * Conversion de Color vers String
+     * @return String la couleur en toute lettre
+     *  @param c La couleur à convertir
      */
-    public static void main(String[] args)
-      {
-        Graphik jeu = new Graphik();
-        jeu.ecrireConsole("Début du jeu");
-      }
+    String switcher(Color c) {
+        if (c == Color.GREEN) {
+            return "Vert";
+        }
+        if (c == Color.ORANGE) {
+            return "Orange";
+        }
+        if (c == Color.YELLOW) {
+            return "Jaune";
+        }
+        if (c == Color.GRAY) {
+            return "Gris";
+        }
+        if (c == Color.RED) {
+            return "Rouge";
+        }
+        if (c == Color.BLUE) {
+            return "Bleu";
+        }
+        if (c == Color.MAGENTA) {
+            return "Magenta";
+        }
+        if (c == Color.PINK) {
+            return "Rose";
+        }
+        if (c == Color.CYAN) {
+            return "Cyan";
+        }
+        return "None";
+    }
 }

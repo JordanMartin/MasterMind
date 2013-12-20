@@ -6,7 +6,7 @@ package graphik;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import mastermind.Mastermind;
+import mastermindf.Mastermind;
 
 /**
  *
@@ -51,6 +51,9 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        modeView1 = new javax.swing.JRadioButton();
+        modeView2 = new javax.swing.JRadioButton();
         gridWidthSpinner = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
         maxTrialsSpinner = new javax.swing.JSpinner();
@@ -67,10 +70,10 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
         exitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Paramètres");
+        setTitle("Param?tres");
         setBounds(new java.awt.Rectangle(20, 20, 200, 20));
         setMinimumSize(new java.awt.Dimension(430, 220));
-        setPreferredSize(new java.awt.Dimension(470, 280));
+        setPreferredSize(new java.awt.Dimension(470, 380));
         setResizable(false);
         getContentPane().setLayout(new java.awt.FlowLayout());
 
@@ -82,21 +85,28 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
         jPanel5.add(jLabel1);
 
         getContentPane().add(jPanel5);
+        
+        modeView1.setText("Mode Console");
+        modeView1.setSelected(true);
+        modeView2.setText("Mode Graphique");
+        jPanel6.add(modeView1);
+        jPanel6.add(modeView2);
+        getContentPane().add(jPanel6);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Paramètres de la partie", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ParamÃ¨tres de la partie", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
         jPanel2.setMinimumSize(new java.awt.Dimension(416, 1));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setText("Largeur de la grille (nombre de pions à deviner)");
+        jLabel2.setText("Largeur de la grille (nombre de pions Ã  deviner)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel2.add(jLabel2, gridBagConstraints);
 
-        gridWidthSpinner.setMaximumSize(new java.awt.Dimension(40, 20));
-        gridWidthSpinner.setMinimumSize(new java.awt.Dimension(40, 20));
-        gridWidthSpinner.setPreferredSize(new java.awt.Dimension(40, 20));
+        gridWidthSpinner.setMaximumSize(new java.awt.Dimension(60, 30));
+        gridWidthSpinner.setMinimumSize(new java.awt.Dimension(60, 30));
+        gridWidthSpinner.setPreferredSize(new java.awt.Dimension(60, 30));
         gridWidthSpinner.setValue(4);
         jPanel2.add(gridWidthSpinner, new java.awt.GridBagConstraints());
 
@@ -108,9 +118,10 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel2.add(jLabel3, gridBagConstraints);
 
-        maxTrialsSpinner.setMaximumSize(new java.awt.Dimension(40, 20));
-        maxTrialsSpinner.setMinimumSize(new java.awt.Dimension(40, 20));
-        maxTrialsSpinner.setPreferredSize(new java.awt.Dimension(40, 20));
+        maxTrialsSpinner.setMaximumSize(new java.awt.Dimension(60, 30));
+        maxTrialsSpinner.setMinimumSize(new java.awt.Dimension(60, 30));
+        maxTrialsSpinner.setPreferredSize(new java.awt.Dimension(60, 30));
+        maxTrialsSpinner.setValue(10);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -205,7 +216,17 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
         else {
             logLevel = 2;
         }
-
+        if(isCanceled ==  false && modeView2.isSelected())
+        {
+            Graphik jeu = new Graphik(logLevel,gameMode,gridWidth,maxTrials);
+            jeu.setVisible(true);
+        }
+        if(isCanceled == false && modeView1.isSelected())
+        {
+            Mastermind jeu = new Mastermind();
+            jeu.ConfigureGame(logLevel, gridWidth, maxTrials, gameMode);
+            jeu.startGame();
+        }
         dispose();
       }
 
@@ -258,6 +279,9 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JRadioButton modeView1;
+    private javax.swing.JRadioButton modeView2;
     private javax.swing.JRadioButton logLevel0;
     private javax.swing.JRadioButton logLevel1;
     private javax.swing.JRadioButton logLevel2;

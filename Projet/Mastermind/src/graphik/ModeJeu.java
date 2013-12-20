@@ -12,16 +12,15 @@ import javax.swing.JFrame;
  *
  * @author p1202922
  */
-public class ModeJeu extends javax.swing.JPanel
-{
+public class ModeJeu extends javax.swing.JPanel {
 
     /**
      * Creates new form ModeJeu
      */
-    public ModeJeu()
-      {
+    public ModeJeu() {
         initComponents();
-      }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,8 +29,7 @@ public class ModeJeu extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-      {
+    private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
@@ -58,27 +56,29 @@ public class ModeJeu extends javax.swing.JPanel
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-            .addGap(34, 34, 34)
-            .addComponent(jLabel1)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jRadioButton3)
-            .addComponent(jRadioButton1)
-            .addComponent(jRadioButton2))
-            .addGap(33, 33, 33)));
+                .addGap(34, 34, 34)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2))
+                .addGap(33, 33, 33))
+        );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-            .addGap(44, 44, 44)
-            .addComponent(jRadioButton1)
-            .addGap(18, 18, 18)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-            .addComponent(jRadioButton2)
-            .addComponent(jLabel1))
-            .addGap(18, 18, 18)
-            .addComponent(jRadioButton3)
-            .addContainerGap(35, Short.MAX_VALUE)));
-      }// </editor-fold>//GEN-END:initComponents
+                .addGap(44, 44, 44)
+                .addComponent(jRadioButton1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addComponent(jRadioButton3)
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
