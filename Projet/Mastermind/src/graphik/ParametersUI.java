@@ -47,6 +47,7 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
         java.awt.GridBagConstraints gridBagConstraints;
 
         logLevelRadioGroup = new javax.swing.ButtonGroup();
+        interfaceRadioGroup = new javax.swing.ButtonGroup();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -91,6 +92,8 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
         modeView2.setText("Mode Graphique");
         jPanel6.add(modeView1);
         jPanel6.add(modeView2);
+        interfaceRadioGroup.add(modeView1);
+        interfaceRadioGroup.add(modeView2);
         getContentPane().add(jPanel6);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Paramètres de la partie", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
@@ -286,6 +289,7 @@ public class ParametersUI extends javax.swing.JDialog implements ActionListener
     private javax.swing.JRadioButton logLevel1;
     private javax.swing.JRadioButton logLevel2;
     private javax.swing.ButtonGroup logLevelRadioGroup;
+    private javax.swing.ButtonGroup interfaceRadioGroup;
     private javax.swing.JSpinner maxTrialsSpinner;
     private javax.swing.JButton playOrdiVsOrdi;
     private javax.swing.JButton playOrdiVsUser;
