@@ -47,7 +47,7 @@ public class Graphik extends JFrame implements ActionListener {
     Combination combinationToGuess;
     Resolver r;
     /**
-     * Classe main
+     * Classe Graphik
      *
      * @param logLevel Le niveau de log du jeu
      * @param gameMode Le mode de jeu
